@@ -1,0 +1,6 @@
+Revision history for Perl extension WebService::Yammer.
+
+0.01  Mon Jul  5 21:49:55 2010
+	- original version; created by h2xs 1.23 with options
+		-XA -n WebService::Yammer
+
