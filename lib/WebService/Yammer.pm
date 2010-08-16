@@ -216,9 +216,10 @@ sub getMessages(){
 sub _parseMessages(){
 	my $self = shift;
 	my $xmlMessages = shift;
-
-	my $aRet = ();
-
+	#my $XML = XMLin($xmlMessages,ForceArray => ['message']);
+	my $XML = XMLin($xmlMessages,KeyAttr => []);
+	#print Dumper($XML->{messages}{message});
+	return @{$XML->{messages}{message}};
 }
 
 __END__

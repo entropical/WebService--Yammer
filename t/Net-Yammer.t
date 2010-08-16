@@ -39,9 +39,34 @@ ok($y->request_token_secret($request_token_secret) && $y->request_token_secret e
 like($y->_oauth_headers("token", "token_secret", "verifier"),
 	qr/OAuth realm="", oauth_consumer_key="$consumer_key", oauth_token="token", oauth_signature_method="PLAINTEXT", oauth_signature="$consumer_secret%26token_secret", oauth_timestamp="\d.*", oauth_nonce="\d.*", oauth_verifier="verifier", oauth_version="1.0"/,
 	"_oauth_headers returned correct authstring"); 
+
 my $xml = ' <?xml version="1.0" encoding="UTF-8"?>
 <response>
   <messages>
+    <message>
+      <system-message>false</system-message>
+      <created-at>2010-08-10T03:23:10Z</created-at>
+      <client-type>ntam</client-type>
+      <message-type>update</message-type>
+      <network-id>115215</network-id>
+      <sender-type>user</sender-type>
+      <thread-id>57889130</thread-id>
+      <liked-by>
+        <names/>
+        <count>0</count>
+      </liked-by>
+      <id>57889131</id>
+      <url>https://www.yammer.com/api/v1/messages/57889130</url>
+      <body>
+        <parsed>Parsed Message</parsed>
+        <plain>Plain Message</plain>
+      </body>
+      <attachments/>
+      <sender-id>1807015</sender-id>
+      <replied-to-id nil="true"></replied-to-id>
+      <web-url>https://www.yammer.com/agbnielsen.com.au/messages/57889130</web-url>
+      <client-url>http://company.com.au</client-url>
+    </message>
     <message>
       <system-message>false</system-message>
       <created-at>2010-08-10T03:23:10Z</created-at>
@@ -106,9 +131,8 @@ my $xml = ' <?xml version="1.0" encoding="UTF-8"?>
   </references>
 </response>';
 
-my %message1 = ('senderid',1807015);
-my @messages;
-push @messages,%message1;
-
-is($y->_parseMessages($xml),\@messages,"Messages Parsed OK");
+my @parsedMessages = $y->_parseMessages($xml);
+is(scalar(@parsedMessages),2,"Messages Parsed OK");
+is($parsedMessages[0]->{id},57889131,"Messages Parsed OK");
+is($parsedMessages[1]->{id},57889130,"Messages Parsed OK");
 
